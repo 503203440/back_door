@@ -1,14 +1,11 @@
 package io.yx;
 
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 
@@ -38,8 +35,7 @@ public class Main {
             exchange.getResponseHeaders().add("content-type", "image/jpeg");
             exchange.getResponseHeaders().set("cache-control", "no-store");
             exchange.sendResponseHeaders(200, 0);
-            try (OutputStream responseBody = exchange.getResponseBody()) {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            try (OutputStream responseBody = exchange.getResponseBody(); ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
                 ImageIO.write(bufferedImage, "jpeg", baos);
                 responseBody.write(baos.toByteArray());
                 exchange.close();
