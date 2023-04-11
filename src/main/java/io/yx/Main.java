@@ -17,9 +17,10 @@ public class Main {
 
 
     public static void main(String[] args) throws Exception {
+
+        Rectangle allScreenBounds = getRectangle();
         Robot robot = new Robot();
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Rectangle rectangle = new Rectangle(screenSize);
+
         int port = 12030;
         if (args.length > 0) {
             try {
@@ -31,7 +32,7 @@ public class Main {
         System.out.println("use port: " + port);
         httpServer.bind(new InetSocketAddress("0.0.0.0", port), 0);
         httpServer.createContext("/", exchange -> {
-            BufferedImage bufferedImage = robot.createScreenCapture(rectangle);
+            BufferedImage bufferedImage = robot.createScreenCapture(allScreenBounds);
             exchange.getResponseHeaders().add("content-type", "image/jpeg");
             exchange.getResponseHeaders().set("cache-control", "no-store");
             exchange.sendResponseHeaders(200, 0);
@@ -44,6 +45,23 @@ public class Main {
 
         httpServer.start();
 
+    }
+
+    /**
+     * 获取所有显示器的宽高
+     * 对于多显示器会拼接
+     */
+    private static Rectangle getRectangle() {
+        // 获取多屏幕窗口大小
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice[] screens = ge.getScreenDevices();
+        Rectangle allScreenBounds = new Rectangle();
+        for (GraphicsDevice screen : screens) {
+            Rectangle screenBounds = screen.getDefaultConfiguration().getBounds();
+            allScreenBounds.width += screenBounds.width;
+            allScreenBounds.height = Math.max(allScreenBounds.height, screenBounds.height);
+        }
+        return allScreenBounds;
     }
 
 
