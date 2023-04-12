@@ -63,7 +63,7 @@ public class Main {
         Rectangle allScreenBounds = new Rectangle();
         for (GraphicsDevice screen : screens) {
             Rectangle screenBounds = screen.getDefaultConfiguration().getBounds();
-            allScreenBounds.x = Math.min(allScreenBounds.x, -screenBounds.width);
+            allScreenBounds.x = Math.min(allScreenBounds.x, screenBounds.x);
             allScreenBounds.width += screenBounds.width;
             allScreenBounds.height = Math.max(allScreenBounds.height, screenBounds.height);
         }
