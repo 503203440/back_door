@@ -18,6 +18,9 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
+        // 处理缩放
+        System.setProperty("sun.java2d.uiScale", "1");
+
         Rectangle allScreenBounds = getRectangle();
         Robot robot = new Robot();
 
@@ -32,12 +35,14 @@ public class Main {
         System.out.println("use port: " + port);
         httpServer.bind(new InetSocketAddress("0.0.0.0", port), 0);
         httpServer.createContext("/", exchange -> {
+//            Image image = robot.createMultiResolutionScreenCapture(allScreenBounds).getResolutionVariant(allScreenBounds.width, allScreenBounds.height);
             BufferedImage bufferedImage = robot.createScreenCapture(allScreenBounds);
-            exchange.getResponseHeaders().add("content-type", "image/jpeg");
+            exchange.getResponseHeaders().add("content-type", "image/png");
             exchange.getResponseHeaders().set("cache-control", "no-store");
             exchange.sendResponseHeaders(200, 0);
             try (OutputStream responseBody = exchange.getResponseBody(); ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-                ImageIO.write(bufferedImage, "jpeg", baos);
+//                ImageIO.write((BufferedImage) image, "png", baos);
+                ImageIO.write(bufferedImage, "png", baos);
                 responseBody.write(baos.toByteArray());
                 exchange.close();
             }
@@ -58,6 +63,7 @@ public class Main {
         Rectangle allScreenBounds = new Rectangle();
         for (GraphicsDevice screen : screens) {
             Rectangle screenBounds = screen.getDefaultConfiguration().getBounds();
+            allScreenBounds.x = Math.min(allScreenBounds.x, -screenBounds.width);
             allScreenBounds.width += screenBounds.width;
             allScreenBounds.height = Math.max(allScreenBounds.height, screenBounds.height);
         }
