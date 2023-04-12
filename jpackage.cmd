@@ -1,9 +1,9 @@
-@echo off
+REM @echo off
 
-set JAVA_HOME=C:/Program Files/Java/jdk-17.0.5
-set PATH=%JAVA_HOME%\bin;%PATH%
+set JAVA_HOME=D:\software\jdk\ibm-semeru-open-jdk_x64_windows_17.0.6_10_openj9-0.36.0\jdk-17.0.6+10
+set PATH=%JAVA_HOME%/bin;%PATH%
 
-set MAVEN_HOME=C:/software/Maven/apache-maven-3.8.3
+set MAVEN_HOME=D:/software/Maven/apache-maven-3.8.3
 set PATH=%MAVEN_HOME%\bin;%PATH%
 
 call mvn clean package -DskipTests=true
