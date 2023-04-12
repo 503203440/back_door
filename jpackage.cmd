@@ -1,4 +1,4 @@
-REM @echo off
+@echo off
 
 set JAVA_HOME=D:\software\jdk\ibm-semeru-open-jdk_x64_windows_17.0.6_10_openj9-0.36.0\jdk-17.0.6+10
 set PATH=%JAVA_HOME%/bin;%PATH%
