@@ -81,8 +81,9 @@
                         </goals>
                         <configuration>
                             <sourceDirs>
-                                <source>src/main/java</source>
-                                <source>target/generated-sources/annotations</source>
+                                <!--必须注释这里的source,否则会出现Duplicate source root-->
+<!--                                <source>src/main/java</source>-->
+<!--                                <source>target/generated-sources/annotations</source>-->
                             </sourceDirs>
                         </configuration>
                     </execution>

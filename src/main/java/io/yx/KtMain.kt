@@ -24,13 +24,9 @@ class KtMain {
         val allScreenBounds = getRectangle()
         val robot = Robot()
 
-        var port = 12030
-        if (args.isNotEmpty()) {
-            try {
-                port = args.get(0).toInt()
-            } catch (ignore: Exception) {
-            }
-        }
+
+        val port = args.getOrElse(0) { 12030 } as Int;
+
         val httpServer = HttpServer.create()
         println("use port: $port")
         httpServer.bind(InetSocketAddress("0.0.0.0", port), 0)
