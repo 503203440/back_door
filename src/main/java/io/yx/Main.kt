@@ -10,13 +10,12 @@ import java.net.InetSocketAddress
 import javax.imageio.ImageIO
 
 fun main(args: Array<String>) {
-    var keMain = KtMain()
-    keMain.main(args)
+    Main().start(args)
 }
 
-class KtMain {
+class Main {
 
-    fun main(args: Array<String>) {
+    fun start(args: Array<String>) {
 
         // 处理缩放
         System.setProperty("sun.java2d.uiScale", "1")
@@ -62,5 +61,6 @@ class KtMain {
         return allScreenBounds
 
     }
+
 
 }
